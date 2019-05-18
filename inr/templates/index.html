@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+{% load static %}
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i></button>
+      <a class="navbar-brand page-scroll" href="#page-top">Cari Lagu</a></div>
+   
+  </div>
+</nav>
+<header>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-7">
+        <div class="header-content">
+          <div class="header-content-inner">
+            <h1>CARI LAGU</h1>
+            <form action="" method="POST">
+                    {% csrf_token %}
+                <input type="text" name = "input" class="form-control" style="border-radius: 25px; height: 80px;width: 500px">
+                <br>
+                <button type="submit" class="btn btn-outline btn-xl page-scroll">kirim</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <div class="device-container">
+          <div class="device-mockup iphone6_plus portrait white">
+            <div class="device">
+              <div class="screen"><img src="{%static "img/demo-screen-1.jpg"%}" class="img-responsive" alt=""></div>
+              <div class="button"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% endblock %}

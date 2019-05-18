@@ -1,0 +1,41 @@
+ {% extends 'layout.html' %} {% load static %} {% block content %}
+
+
+
+<body id="page-top">
+
+
+    <section id="features" class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-heading">
+                        <h2>Jumlah dokumen :{{judul|length}}</h2>
+                        <p class="text-muted">dilihat-lihat dulu</p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+               
+                <div class="col-md-12">
+                    <div class="container-fluid">
+                        <div class="row">
+                            {% for i,j in mydict.items %}
+                            <div class="col-md-4">
+                                <div class="feature-item"  style="min-height: 1000px">
+                                    <!-- <i class="icon-lock-open text-primary"></i> -->
+                                    <h3>{{i}}</h3>
+                                    <p class="text-muted">{{j}}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+{% endblock %}
