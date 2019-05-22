@@ -9,12 +9,14 @@ doc_xml = minidom.parse("inr/data/convertcsv(1).xml")
 docno = doc_xml.getElementsByTagName('No')
 text = doc_xml.getElementsByTagName('Lirik')
 headline = doc_xml.getElementsByTagName('Judul')
+penyanyi = doc_xml.getElementsByTagName('Penyanyi')
+
 N_DOC = len(docno)
 tokens_doc = []
 all_sentence_doc = []
 for i in range(N_DOC):
     #print (i)
-    sentence_doc = headline[i].firstChild.data +' '+ text[i].firstChild.data
+    sentence_doc = headline[i].firstChild.data +' '+ text[i].firstChild.data +' '+ penyanyi[i].firstChild.data
     all_sentence_doc.append(sentence_doc)
     
 # =============================================================================
@@ -137,8 +139,11 @@ def preprocessing(query):
     query = query.lower()
     for punctuation in string.punctuation:
         query = query.replace(punctuation," ")
+        string_no_numbers = re.sub("\d+", " ", query)
         
-    query = stemmer.stem(query)
+    query = stemmer.stem(string_no_numbers)
+    # return query
+    # query = stemmer.stem(query)
     return query
 
 def search(query):
@@ -150,9 +155,9 @@ def search(query):
         result.append(key)
     return result
 
-def main(input):
+def main(inputs):
 
-    query = input
+    query = inputs
 
     prepros = preprocessing(query)
     # prepros
@@ -176,33 +181,50 @@ def main(input):
 
     spl = prepros.split()
     n = len(spl)
-
+    dic = []
     ngram_all, ngram_doc = indexing(tokens_doc, n)
 
     ngram_index = {}
     ngram_data = {}
+    ngram_penyanyi = {}
     for token in ngram_all:
         doc_headline = []
         doc_text = []
+        doc_penyanyi = []
+
         for i in range(N_DOC):
             if (token in ngram_doc[i]):
                 doc_headline.append(headline[i].firstChild.data)
                 doc_text.append(text[i].firstChild.data)
+                doc_penyanyi.append(penyanyi[i].firstChild.data)
+                
+
         ngram_index[token] = doc_headline
         ngram_data[token] = doc_text
-        
-    retrieve = (u', '.join(ngram_data[prepros]))
+        ngram_penyanyi[token] = doc_penyanyi
+    
+    retrieve = []
+    if query in ngram_all:
+    
+        khas = (u', '.join(ngram_data[prepros]))
+        retrieve.append(khas)
+    
+    else:
+        return dic
 
-
+    
     # result = []
     judul = []
     lirik = []
-    for v1,v2 in zip(ngram_index[prepros],ngram_data[prepros]):
-        hasil = "Judul : {0}\n Lirik : {1}".format(v1,v2)
+    nyanyi = []
+    for v1,v2,v3 in zip(ngram_index[prepros],ngram_data[prepros],ngram_penyanyi[prepros]):
+        # hasil = "Judul : {0}\n Lirik : {1}".format(v1,v2)
         judul.append(v1)
         lirik.append(v2)
+        nyanyi.append(v3)
 
-    mydict = dict(zip(judul, lirik))
-        # result.append(hasil)
+    for i in range(len(judul)):
+        ans = {'judul' : judul[i], 'penyanyi' : nyanyi[i], 'lirik' : lirik[i]}
+        dic.append(ans)
 
-    return mydict, judul
+    return dic,prepros

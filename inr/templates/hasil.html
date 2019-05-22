@@ -10,32 +10,36 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="section-heading">
-                        <h2>Jumlah dokumen :{{judul|length}}</h2>
+                        <h2>Jumlah dokumen :{{dic|length}}</h2>
                         <p class="text-muted">dilihat-lihat dulu</p>
+                        <textarea class="form-control" readonly style="width: 200px; height: 80px">{{prepros}}</textarea>
                         <hr>
                     </div>
                 </div>
             </div>
             <div class="row">
                
-                <div class="col-md-12">
-                    <div class="container-fluid">
-                        <div class="row">
-                            {% for i,j in mydict.items %}
-                            <div class="col-md-4">
-                                <div class="feature-item"  style="min-height: 1000px">
-                                    <!-- <i class="icon-lock-open text-primary"></i> -->
-                                    <h3>{{i}}</h3>
-                                    <p class="text-muted">{{j}}</p>
+                    <div class="col-md-12">
+                        <div class="container-fluid">
+                            <div class="row">
+                                {% for x in dic %}
+                                <div class="col-md-4">
+                                    <div class="feature-item"  style="min-height: 1000px">
+                                        <!-- <i class="icon-lock-open text-primary"></i> -->
+                                        <h3>Judul :{{x.judul}}</h3>
+                                        <h4>penyanyi : {{x.penyanyi}}</h4>
+                                        <p class="text-muted">Lirik :{{x.lirik}}</p>
+                                    </div>
                                 </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
                         </div>
                     </div>
                 </div>
-            </div>
+            
         </div>
     </section>
 </body>
+
 </html>
 {% endblock %}

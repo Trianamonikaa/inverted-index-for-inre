@@ -7,10 +7,20 @@ from inr import main
 def index(request):
     if request.method == 'POST':
         text = request.POST['input']
-        mydict, judul = main.main(text)
-        isi ={'mydict':mydict, 'judul': judul}
-        return render(request, 'hasil.html', isi)
+        dic,prepros = main.main(text)
+        # print(prepros)
+        if len(dic) == 0:
+            isi = {}
+            return render(request, 'notfound.html', isi)
+        else:
+            isi = {'dic':dic, 'prepros' : prepros}
+            return render(request, 'hasil.html', isi)
     return render(request, 'index.html')
+
+
 
 def hasil(lala):
     return render(lala,'hasil.html')
+
+def notfound(ll):
+    return render(ll, 'notfound.html')
